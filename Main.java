@@ -1,85 +1,59 @@
-
 public class Main {
-    public static void main(String[] args) throws Exception {
-        Scanner scn = new Scanner(System.in);
-        String exp = scn.nextLine();
-        char action = getAction(exp);
-        String[] data = getData(exp, action);
 
-        // Проверка значений чисел
-        for (String datum : data) {
-            int number = Integer.parseInt(datum);
-            if (number < 1 || number > 10) {
-                throw new Exception("Числа должны быть от 1 до 10 включительно");
-            }
+    public static String calculate(String expression) {
+        // Проверяем корректность входных данных
+        if (expression == null || expression.isEmpty())
+            return "Ошибка: пустое выражение";
+
+
+        // Разбиваем выражение на части
+        String[] parts = expression.split("\\s+");
+
+        if (parts.length != 3) {
+            return "Ошибка: неверный формат выражения";
         }
 
-        String result = calculateResult(action, data);
-        printInQuotes(result);
-    }
+        String num1Str = parts[0];
+        String operator = parts[1];
+        String num2Str = parts[2];
 
-    static char getAction(String exp) throws Exception {
-        if (exp.contains(" + ")) {
-            return '+';
-        } else if (exp.contains(" - ")) {
-            return '-';
-        } else if (exp.contains(" * ")) {
-            return '*';
-        } else if (exp.contains(" / ")) {
-            return '/';
-        } else {
-            throw new Exception("Некорректный знак действия");
+        int num1 = Integer.parseInt(num1Str);
+        int num2 = Integer.parseInt(num2Str);
+
+        // Проверяем диапазон чисел
+        if (num1 < 0 || num1 > 10 || num2 < 0 || num2 > 10) {
+            return "Ошибка: числа должны быть от 0 до 10";
         }
-    }
 
-    static String[] getData(String exp, char action) {
-        String[] data;
-        switch (action) {
-            case '+':
-                data = exp.split(" \\+ ");
+        // Выполняем операцию
+        switch (operator) {
+            case "+":
+                System.out.println(num1 + num2);
                 break;
-            case '-':
-                data = exp.split(" - ");
+            case "-":
+                System.out.println(num1 - num2);
                 break;
-            case '*':
-                data = exp.split(" \\* ");
+            case "*":
+                System.out.println(num1 * num2);
                 break;
-            case '/':
-                data = exp.split(" / ");
-                break;
-            default:
-                data = new String[0];
-        }
-        return data;
-    }
-
-    static String calculateResult(char action, String[] data) throws Exception {
-        int a = Integer.parseInt(data[0]);
-        int b = Integer.parseInt(data[1]);
-        int result;
-        switch (action) {
-            case '+':
-                result = a + b;
-                break;
-            case '-':
-                result = a - b;
-                break;
-            case '*':
-                result = a * b;
-                break;
-            case '/':
-                if (b == 0) {
-                    throw new Exception("Деление на ноль");
+            case "/":
+                if (num2 == 0) {
+                    return "Ошибка: деление на ноль";
                 }
-                result = a / b;
+                System.out.println(num1 / num2);
                 break;
             default:
-                throw new Exception("Некорректное действие");
-        }
-        return String.valueOf(result);
-    }
+                System.out.println("строка не является математической операцией");
 
-    static void printInQuotes(String result) {
-        System.out.println("\"" + result + "\"");
+        }
+        return "Ошибка: неизвестный оператор";
     }
 }
+
+
+
+
+
+
+
+
